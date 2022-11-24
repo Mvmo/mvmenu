@@ -5,6 +5,7 @@ if [ $? -eq 1 ]; then
     exit 0
 fi
 
+spaces=$(yabai -m query --spaces)
 displays=$(yabai -m query --displays)
 
 if [ -z "$displays" ]; then
@@ -13,7 +14,8 @@ fi
 
 echo $(cat <<-EOF
     {
-        "displays": $displays
+        "displays": $displays,
+        "spaces": $spaces
     }
 EOF
 )
