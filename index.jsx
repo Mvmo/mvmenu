@@ -1,5 +1,8 @@
 import * as Uebersicht from "uebersicht";
 
+import { Clock } from "./lib/components/clock.jsx";
+import { SpaceCard } from "./lib/components/space.jsx";
+
 // TODO: Better variant of styling
 export const className = `
     background-color: black;
@@ -10,45 +13,34 @@ export const className = `
 `
 
 // TODO: signals?
-export const refreshFrequency = 6000;
+export const refreshFrequency = 1000 * 60;
 
-// TODO: relative path
-export const command = "bash /Users/mvmo/.dotfiles/.config.d/uebersicht/widgets/mvmenu/libs/scripts/init.sh"
+export const command = "bash ./mvmenu/lib/scripts/init.sh"
 
-// TODO: add functionality to switch spaces by clicking
-const SpaceCard = ({ space }) => {
-    return (
-        <div style={{
-            backgroundColor: space["has-focus"] ? "red" :"gray",
-            display: "inline-block",
-            padding: 7,
-            marginRight: 10,
-            cursor: "pointer"
-        }}>
-            <span>{space.label || space.index}</span>
-        </div>
-    )
+const parseOutput = (output)  => {
+    if (!output)
+        return [undefined, "no output given"];
+    
+    try {
+        const obj = JSON.parse(output);
+        return [obj, undefined];
+    } catch (err) {
+        return [undefined, "couldn't parse json"];
+    }
 }
 
-// TODO: Better error handling
 export const render = ({ output, error }) => {
-    if (!output)
-        return (
-            <span>Error no output</span>
-        )
+    const [data, parseError] = parseOutput(output);
 
-    const data = JSON.parse(output);
-    if (!data)
-        return (
-            <span>Error</span>
-        )
-
+    if (parseError || error)
+        return <span>{parseError || error}</span>
 
     return (
         <div>
             { data.spaces.map(space => (
                 <SpaceCard space={space} />
             )) }
+            <Clock />
         </div>
     )
 }
