@@ -6,6 +6,7 @@ export const className = `
     width: 100vw;
     color: white;
     font-family: Monaco;
+    user-select: none;
 `
 
 // TODO: signals?
@@ -14,6 +15,7 @@ export const refreshFrequency = 6000;
 // TODO: relative path
 export const command = "bash /Users/mvmo/.dotfiles/.config.d/uebersicht/widgets/mvmenu/libs/scripts/init.sh"
 
+// TODO: add functionality to switch spaces by clicking
 const SpaceCard = ({ space }) => {
     return (
         <div style={{
@@ -21,6 +23,7 @@ const SpaceCard = ({ space }) => {
             display: "inline-block",
             padding: 7,
             marginRight: 10,
+            cursor: "pointer"
         }}>
             <span>{space.label || space.index}</span>
         </div>
