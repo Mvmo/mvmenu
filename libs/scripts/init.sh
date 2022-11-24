@@ -1,3 +1,4 @@
+# TODO: Only get required information using jq
 pgrep -x yabai > /dev/null
 
 if [ $? -eq 1 ]; then
